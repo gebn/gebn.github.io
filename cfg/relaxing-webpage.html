@@ -115,6 +115,25 @@
             }
         </style>
         <script>
+            function determineStart(url) {
+                const start = Date.parse(url.searchParams.get('start'));
+                if (isNaN(start)) {
+                    // assume beginning of the current hour
+                    const date = new Date();
+                    date.setMinutes(0, 0, 0);
+                    return date.getTime();
+                }
+                return start
+            }
+
+            function determineAttendees(url) {
+                const attendees = parseInt(url.searchParams.get('attendees'), 10);
+                if (isNaN(attendees)) {
+                    return 10;
+                }
+                return attendees;
+            }
+
             function formatCost(pounds) {
                 return pounds.toLocaleString(undefined, {
                     // lock string length to force constant width, so centre point does not move
@@ -124,8 +143,8 @@
             }
             
             const url = new URL(location.href);
-            const start = Date.parse(url.searchParams.get('start'));
-            const attendees = parseInt(url.searchParams.get('attendees'), 10);
+            const start = determineStart(url);
+            const attendees = determineAttendees(url);
             
             const avgSalary = 120_000;
             const annualWorkingHours = 1_880;
