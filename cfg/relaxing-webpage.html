@@ -129,7 +129,7 @@
             function determineAttendees(url) {
                 const attendees = parseInt(url.searchParams.get('attendees'), 10);
                 if (isNaN(attendees)) {
-                    return 10;
+                    return 20;
                 }
                 return attendees;
             }
