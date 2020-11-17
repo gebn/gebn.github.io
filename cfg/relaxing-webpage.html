@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+    <head>
+        <title>Relaxing Webpage</title>
+        <style>
+            /* http://meyerweb.com/eric/tools/css/reset/ 
+               v2.0 | 20110126
+               License: none (public domain)
+            */
+            html, body, div, span, applet, object, iframe,
+            h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+            a, abbr, acronym, address, big, cite, code,
+            del, dfn, em, img, ins, kbd, q, s, samp,
+            small, strike, strong, sub, sup, tt, var,
+            b, u, i, center,
+            dl, dt, dd, ol, ul, li,
+            fieldset, form, label, legend,
+            table, caption, tbody, tfoot, thead, tr, th, td,
+            article, aside, canvas, details, embed, 
+            figure, figcaption, footer, header, hgroup, 
+            menu, nav, output, ruby, section, summary,
+            time, mark, audio, video {
+                margin: 0;
+                padding: 0;
+                border: 0;
+                font-size: 100%;
+                font: inherit;
+                vertical-align: baseline;
+            }
+            /* HTML5 display-role reset for older browsers */
+            article, aside, details, figcaption, figure, 
+            footer, header, hgroup, menu, nav, section {
+                display: block;
+            }
+            body {
+                line-height: 1;
+            }
+            ol, ul {
+                list-style: none;
+            }
+            blockquote, q {
+                quotes: none;
+            }
+            blockquote:before, blockquote:after,
+            q:before, q:after {
+                content: '';
+                content: none;
+            }
+            table {
+                border-collapse: collapse;
+                border-spacing: 0;
+            }
+            /* end CSS reset */
+            
+            body {
+                font-family: Helvetica, sans-serif;
+                display: table;
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                overflow: hidden;
+            }
+            main {
+                text-align: center;
+                display: table-cell;
+                vertical-align: middle;
+            }
+            h1 {
+                font-weight: bold;
+            }
+            .periods > ul {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                grid-gap: 1em;
+            }
+            .periods {
+                font-size: 2em;
+                color: #666;
+            }
+            .periods .cost {
+                font-size: 1.5em;
+                margin-right: .2em;
+            }
+            .hero {
+                font-size: 3em;
+                margin-bottom: 2em;
+            }
+            .prominent {
+                margin-top: .5em;
+                font-size: 2em;
+                -webkit-animation-name: shake;
+                -webkit-animation-duration: 0.5s;
+                -webkit-transform-origin:50% 50%;
+                -webkit-animation-iteration-count: infinite;
+            }
+            .cost {
+                /* monospace so centre does not change when updating, causing movement */
+                font-family: Roboto Mono, monospace;
+                color: #000;
+            }
+            @-webkit-keyframes shake {
+                0% { -webkit-transform: translate(2px, 1px) rotate(0deg); } 
+                10% { -webkit-transform: translate(-1px, -2px) rotate(-1deg); }
+                20% { -webkit-transform: translate(-3px, 0px) rotate(1deg); }
+                30% { -webkit-transform: translate(0px, 2px) rotate(0deg); }
+                40% { -webkit-transform: translate(1px, -1px) rotate(1deg); }
+                50% { -webkit-transform: translate(-1px, 2px) rotate(-1deg); }
+                60% { -webkit-transform: translate(-3px, 1px) rotate(0deg); }
+                70% { -webkit-transform: translate(2px, 1px) rotate(-1deg); }
+                80% { -webkit-transform: translate(-1px, -1px) rotate(1deg); }
+                90% { -webkit-transform: translate(2px, 2px) rotate(0deg); }
+                100% { -webkit-transform: translate(1px, -2px) rotate(-1deg); }
+            }
+        </style>
+        <script>
+            function formatCost(pounds) {
+                return pounds.toLocaleString(undefined, {
+                    // lock string length to force constant width, so centre point does not move
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+            
+            const url = new URL(location.href);
+            const start = Date.parse(url.searchParams.get('start'));
+            const attendees = parseInt(url.searchParams.get('attendees'), 10);
+            
+            const avgSalary = 120_000;
+            const annualWorkingHours = 1_880;
+            const perSecond = avgSalary / annualWorkingHours / 60 / 60 * attendees;
+            
+            document.addEventListener('DOMContentLoaded', () => {
+                const total = document.getElementById('total');
+                setInterval(() => {
+                    const difference = Date.now() - start;
+                    total.textContent = formatCost(difference / 1000 * perSecond);
+                }, 15);
+                
+                document.getElementById('second').textContent = formatCost(perSecond);
+                document.getElementById('minute').textContent = formatCost(perSecond * 60);
+                document.getElementById('hour').textContent = formatCost(perSecond * 60 * 60);
+            });
+        </script>
+    </head>
+    <body>
+        <main>
+            <section class="hero">
+                <h1>Don&#8217;t worry, this meeting has only cost the firm</h1>
+                <p class="prominent cost">£<span id="total">12,345.67</span></p>
+            </section>
+            <section class="periods">
+                <ul>
+                    <li>
+                        <p><span class="cost">£<span id="second">1.22</span></span>/second</p>
+                    </li>
+                    <li>
+                        <p><span class="cost">£<span id="minute">73.20</span></span>/minute</p>
+                    </li>
+                    <li>
+                        <p><span class="cost">£<span id="hour">4,392.12</span></span>/hour</p>
+                    </li>
+                </ul>
+            </section>
+        </main>
+    </body>
+</html>
