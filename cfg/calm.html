@@ -72,14 +72,15 @@
             h1 {
                 font-weight: bold;
             }
-            .periods > ul {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-                grid-gap: 1em;
-            }
             .periods {
                 font-size: 2em;
                 color: #666;
+                margin: 0 20%;
+            }
+            .periods > ul {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                grid-gap: 1em;
             }
             .periods .cost {
                 font-size: 1.5em;
@@ -88,6 +89,15 @@
             .hero {
                 font-size: 3em;
                 margin-bottom: 2em;
+            }
+            @media (max-width: 30em) {
+                .hero {
+                    font-size: 2em;
+                }
+                .periods {
+                    font-size: 1.5em;
+                    margin: 0;
+                }
             }
             .prominent {
                 margin-top: .5em;
